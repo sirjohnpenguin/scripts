@@ -27,12 +27,18 @@
     function ultimos_videos(channel_id,yt_maxResults){
         $.get(
            "https://www.googleapis.com/youtube/v3/channels",{
-            part : 'contentDetails', 
+            part : 'contentDetails,snippet', 
             id : channel_id,
             key: yt_api_key},
                 function(data) {
                     $.each( data.items, function( i, item ) {
                         pid = item.contentDetails.relatedPlaylists.uploads;
+                        channel_title = item.snippet.title;
+                        channel_title = '<h2>' + channel_title + '</h2>';
+                        channel_description = '<p>' + item.snippet.description + '</p>';
+                        $('#'+channel_id+'').append(channel_title);
+                        $('#'+channel_id+'').append(channel_description);
+
                         yt_videos(pid,yt_api_key,channel_id,yt_maxResults);
                     });
                 }
@@ -40,7 +46,7 @@
         }
     
     
-    // crea la lista de videos.
+    // crea la lista de los ultimos videos subidos.
     function yt_videos(pid,yt_api_key,channel_id,yt_maxResults){
     $.get(
         "https://www.googleapis.com/youtube/v3/playlistItems",{
@@ -56,7 +62,7 @@
                     video_title_url = '<a href="https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId + '" target="_blank">' + item.snippet.title + '</a>';
                     video_thumbnail = '<a href="https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId + '" target="_blank">' + '<img src="' + item.snippet.thumbnails.medium.url + '"></a>';
     
-                    results = video_thumbnail + '<br>' + video_title_url + '<br>';
+                    results = '<br>' + video_thumbnail + '<br>' + video_title_url + '<br>';
                     $('#'+channel_id+'').append(results);
                 });
             }
