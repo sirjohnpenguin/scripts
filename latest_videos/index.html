@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Últimos Vídeos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+    <script type="text/javascript">
+    //api key de Youtube. 
+    //registrar en http://console.developers.google.com/
+    var yt_api_key = 'API_KEY';
+    
+    //En el ejemplo son tres canales.
+    //El 'id' del canal lo podemos obtener de:
+    //https://www.youtube.com/account_advanced
+    //'maxresults' indica la cantidad de
+    //videos devueltos por la api.
+    
+    ultimos_videos('UCoUfTe1gnyn2b7IElAp3jEw','3');
+    ultimos_videos('UCmbkSaxpzarwqAqzmgxcuYg','3');
+    ultimos_videos('UCJMRrWo1GqM2piCXtr_H7kQ','3');
+    
+    // funcion videos
+    function ultimos_videos(channel_id,yt_maxResults){
+        $.get(
+           "https://www.googleapis.com/youtube/v3/channels",{
+            part : 'contentDetails', 
+            id : channel_id,
+            key: yt_api_key},
+                function(data) {
+                    $.each( data.items, function( i, item ) {
+                        pid = item.contentDetails.relatedPlaylists.uploads;
+                        yt_videos(pid,yt_api_key,channel_id,yt_maxResults);
+                    });
+                }
+            );
+        }
+    
+    
+    // crea la lista de videos.
+    function yt_videos(pid,yt_api_key,channel_id,yt_maxResults){
+    $.get(
+        "https://www.googleapis.com/youtube/v3/playlistItems",{
+        part : 'snippet', 
+        maxResults : yt_maxResults,
+        playlistId : pid,
+        key: yt_api_key},
+            function(data) {
+                var results;
+                var video_title_url;
+                var video_thumbnail;
+                $.each( data.items, function( i, item ) {
+                    video_title_url = '<a href="https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId + '" target="_blank">' + item.snippet.title + '</a>';
+                    video_thumbnail = '<a href="https://www.youtube.com/watch?v=' + item.snippet.resourceId.videoId + '" target="_blank">' + '<img src="' + item.snippet.thumbnails.medium.url + '"></a>';
+    
+                    results = video_thumbnail + '<br>' + video_title_url + '<br>';
+                    $('#'+channel_id+'').append(results);
+                });
+            }
+        );
+    }
+    
+    </script>
+
+</head>
+<body>
+    
+    <!-- por cada canal, un div con el id correspondiente-->
+    <div id="UCoUfTe1gnyn2b7IElAp3jEw"></div>
+    <div id="UCmbkSaxpzarwqAqzmgxcuYg"></div>
+    <div id="UCJMRrWo1GqM2piCXtr_H7kQ"></div>
+
+  </body>
+</html>
