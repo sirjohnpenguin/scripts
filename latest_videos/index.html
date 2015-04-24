@@ -1,7 +1,7 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
   <head>
-    <title>�ltimos V�deos</title>
+    <title>Últimos Vídeos</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
@@ -20,7 +20,7 @@
     ultimos_videos('UCmbkSaxpzarwqAqzmgxcuYg','3');
     ultimos_videos('UCJMRrWo1GqM2piCXtr_H7kQ','3');
     
-    // funcion videos
+    // función videos
     function ultimos_videos(channel_id,yt_maxResults){
         $.get(
            "https://www.googleapis.com/youtube/v3/channels",{
@@ -65,7 +65,7 @@
 </head>
 <body>
     
-    <!-- por cada canal, un div con el id correspondiente-->
+    <!-- por cada canal, un div (u,li,p,whatever)con el id correspondiente-->
     <div id="UCoUfTe1gnyn2b7IElAp3jEw"></div>
     <div id="UCmbkSaxpzarwqAqzmgxcuYg"></div>
     <div id="UCJMRrWo1GqM2piCXtr_H7kQ"></div>
