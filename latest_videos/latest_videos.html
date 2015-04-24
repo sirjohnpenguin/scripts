@@ -20,7 +20,10 @@
     ultimos_videos('UCmbkSaxpzarwqAqzmgxcuYg','3');
     ultimos_videos('UCJMRrWo1GqM2piCXtr_H7kQ','3');
     
-    // función videos
+    // detalles del canal
+    // pedimos a la api, detalles del
+    // canal en cuestion. El titulo, playlists 
+    // del canal (uploads,likes,etc)
     function ultimos_videos(channel_id,yt_maxResults){
         $.get(
            "https://www.googleapis.com/youtube/v3/channels",{
